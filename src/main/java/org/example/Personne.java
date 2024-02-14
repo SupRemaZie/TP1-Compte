@@ -42,6 +42,10 @@ public class Personne {
         compteDebit.debiter(montant);
         compteCredit.crediter(montant);
     }
+    @Override
+    public String toString() {
+        return nom+" "+prenom+" "+adresse;
+    }
 
 
 

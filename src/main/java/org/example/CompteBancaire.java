@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class CompteBancaire {
 
-    private final int numCompte = Integer.parseInt(UUID.randomUUID().toString());
+    private final String numCompte = UUID.randomUUID().toString();
     private final Personne titulaire;
     private double solde;
 
@@ -22,8 +22,11 @@ public class CompteBancaire {
 
 
     public void crediter(double montant) {
-        if( montant > 0){
+        if( montant < 0){
             throw new IllegalArgumentException("Depot impossible, montant negatif");
+        }
+        if (solde >=0 ) {
+            this.isDecouvert = false;
         }
         this.solde += montant;
 
@@ -32,6 +35,9 @@ public class CompteBancaire {
     public void debiter(double montant) {
         if  (montant > this.debitMax) {
             throw new IllegalArgumentException("Retrait impossible, montant superieur au debit max");
+        }
+        if( montant < 0){
+            throw new IllegalArgumentException("Retrait impossible, montant negatif");
         }
         if (solde <0) {
             this.isDecouvert = true;
@@ -52,17 +58,23 @@ public class CompteBancaire {
         return this.titulaire.toString();
     }
 
-    public double setDecouvertMax(double decouvertMax) {
+    public void setDecouvertMax(double decouvertMax) {
         if(decouvertMax < 0) {
             throw new IllegalArgumentException("Le decouvert max ne peut pas être négatif");
         }
+        this.decouvertMax = decouvertMax;
+    }
+    public double getDecouvertMax() {
         return this.decouvertMax;
     }
 
-    public double setDebitMax(double debitMax) {
+    public void setDebitMax(double debitMax) {
         if(debitMax < 0) {
             throw new IllegalArgumentException("Le debit max ne peut pas être négatif");
         }
+        this.debitMax = debitMax;
+    }
+    public double getDebitMax() {
         return this.debitMax;
     }
     /**
@@ -78,6 +90,14 @@ public class CompteBancaire {
                 ", isDecouvert=" + isDecouvert +
                 ", decouvertMax=" + decouvertMax +
                 '}';
+    }
+
+    public boolean isDecouvert() {
+        return this.isDecouvert;
+    }
+
+    public void setSold(int i) {
+        this.solde = i;
     }
 }
 
